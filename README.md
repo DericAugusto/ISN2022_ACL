@@ -7,5 +7,6 @@ Members of the group:
 * Déric Augusto  
 * Hubert de Marcillac
 * Ibrahim Souley 
+* Adrien Audren
 
 
