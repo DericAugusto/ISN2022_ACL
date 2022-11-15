@@ -1,0 +1,6 @@
+- Feature 1: the character can move (to the left or to the right) 
+- Feature 2: display multiple screens
+    - Beginning 
+    - Gameplay
+    - Game over
+- Feature 3: the character can jump

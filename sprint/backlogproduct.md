@@ -2,7 +2,7 @@
 
 ## general idea
 
-- the game looks like street figher
+- the game looks like street fighter: computer fights against the user 
 
 ## hero (fighter)
 
@@ -12,7 +12,7 @@
 
 ## background
 
-- elements in the background move with respect to the background reference
+- a static picture in the background 
 - we will hear music while we are playing
 - different sound for different action 
 
