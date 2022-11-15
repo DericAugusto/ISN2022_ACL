@@ -1,4 +1,4 @@
 - Feature 1: the character can jump 
 - Feature 2: items can drop from top of the screen
 - Feature 3: the character can pick them up 
-- Feature 3: add a picture in the background 
+- Feature 4: add a picture in the background 
