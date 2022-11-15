@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ISN2022-DIAH
 
 # ISN - ENSEM 
@@ -12,4 +11,3 @@ Members of the group:
 * Ibrahim Souley 
 * Adrien Audren
 
->>>>>>> e12bfad37a235cd2ebc505ba5f0913e9e4a3bef8
