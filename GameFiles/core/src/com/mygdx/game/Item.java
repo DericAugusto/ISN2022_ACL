@@ -10,7 +10,7 @@ public class Item {
 	float yCoord;
 	enum itemType {healthPotion, strengthPotion, speedPotion}
 	itemType iT;
-	int comp;
+	
 	Texture[] ItemSkins;
 	float textureHeight;
 	float textureWidth;

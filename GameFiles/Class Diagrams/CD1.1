@@ -1,0 +1,77 @@
+
+
+@startuml
+class ApplicationAdapter #back:lightgreen|yellow;line.bold;header:blue/red
+MainGdxGame --> ApplicationAdapter 
+
+class MainGdxGame  #palegreen;line:black;line.bold;text:black{
+	..Display..
+	ShapeRenderer shapeRenderer
+	SpriteBatch batch
+	BitmapFont font
+	Texture currentTexture
+	..Screen..
+	Screen currentScreen
+	..Fighter..
+	Fighter player
+	..Items..
+	int itempop 
+    int itemsnumber 
+    ArrayList<Item> Litems 
+    ArrayList<Item> Luseditems 
+    String[] randomItem
+    
+    + void create()
+    + void render()
+    + void dispose()
+}
+
+class Fighter #pink;line:black;line.bold;text:black{
+	..Basics..
+	float xCoord
+	float yCoord
+	String pseudo
+	..Animation..
+	int comp
+	Texture Stand
+	Texture[] WalkR
+	Texture[] WalkL
+	float textureHeight
+	float textureWidth
+	..Stats..
+	float HP
+	int currentSpeed
+	float currentStrength
+	==
+	+Fighter(String name)
+	+float[] locate()
+	+Texture right()
+	+Texture left()
+	+Texture stand()
+}
+
+Class Item #aliceblue;line:black;line.bold;text:black{
+	..Basics..
+	float xCoord
+	float yCoord
+	enum itemType {healthPotion, strengthPotion, speedPotion}
+	itemType iT
+	..Animation..
+	Texture[] ItemSkins
+	float textureHeight
+	float textureWidth
+	..EffectsManagement..
+	int deathCountdown
+	int effectCountdown
+	==
+	+Item(String itemName)
+	+float[] locate()
+	+void effect(Fighter player)
+	+void clearEffect(Fighter player)
+	+Boolean move()
+}
+MainGdxGame "1"--"0..*" Fighter : has >
+MainGdxGame "1"--"0..*" Item : has >
+Fighter "0..1"--"0..*" Item : affect <
+	
+@enduml
