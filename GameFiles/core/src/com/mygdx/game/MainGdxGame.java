@@ -26,6 +26,7 @@ public class MainGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	Texture currentTexture;
+	Texture texture;
 	
 	Screen currentScreen = Screen.TITLE;
 
@@ -43,7 +44,9 @@ public class MainGdxGame extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         player = new Fighter("Chad"); // player has been created here because textures have to be created in the create section
-        font = new BitmapFont();
+        // font = new BitmapFont(); // for a font in a green color 
+		batch = new SpriteBatch();
+        texture = new Texture(Gdx.files.internal("welcome.png"));
         
         Gdx.input.setInputProcessor(new InputAdapter() {
 
@@ -68,10 +71,11 @@ public class MainGdxGame extends ApplicationAdapter {
     	
     	if(currentScreen == Screen.TITLE){
 
-            Gdx.gl.glClearColor(0, .25f, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+			Gdx.gl.glClearColor(0.125f, 0.125f, .125f, 1);
+			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             batch.begin();
-            font.draw(batch, "V 1.0 !", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
+			batch.draw(texture, 0, 0);
+            font.draw(batch, "V 2.0 !", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
             font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .5f);
             font.draw(batch, "Press space to play.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
             font.draw(batch, "<--Q D-->", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .30f);
@@ -84,7 +88,7 @@ public class MainGdxGame extends ApplicationAdapter {
         		currentTexture = player.left();
         	}
         	else if(Gdx.input.isKeyPressed(Input.Keys.D)){
-        		currentTexture = player.right(); // --> depile une walking frame
+        		currentTexture = player.right(); // --> depile a walking frame
         	}
         	else {
         		currentTexture = player.stand();
