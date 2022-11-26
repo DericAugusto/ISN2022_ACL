@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class Fighter {
 	
+	int health;
 	float xCoord;
 	float yCoord;
 	String pseudo;
@@ -22,6 +23,7 @@ public class Fighter {
 	Fighter(String name){
 		
 		pseudo = name;
+		health = 100;
 		xCoord = 200;
 		yCoord = 100;
 		WalkR = new Texture[]{new Texture(Gdx.files.internal("WalkingPositionR1.png")),new Texture(Gdx.files.internal("WalkingPositionR2.png")),
