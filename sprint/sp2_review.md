@@ -1,0 +1,3 @@
+- character cannot jump 
+- even if all the items are in the code, we are not able to see the effects: print heartpoint ATH
+- there is no picture and no sound 

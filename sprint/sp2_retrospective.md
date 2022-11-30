@@ -1,0 +1,6 @@
+- we didn't understand exactly what is a backlog.
+- bad communication
+- problem in the use of libgdx, git and java. we learn how to use it later.
+- however, we have done the major part of the work (f2 abd f3). Every features are written. We just have to print heartpoints on the screen to see effects of bad items
+- finally an incomprehension about the branch: we have to merge all the branch at the end of the sprint
+- remember: readme to explain the client what he must do to run de the game
