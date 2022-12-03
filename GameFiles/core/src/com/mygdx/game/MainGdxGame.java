@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -24,6 +25,7 @@ public class MainGdxGame extends ApplicationAdapter {
         TITLE, MAIN_MainGdxGame, MainGdxGame_OVER;
     }
 	
+	Music welcomemusic;
 	SpriteBatch batch;
 	BitmapFont font;
 	Texture currentTexture;
@@ -45,9 +47,20 @@ public class MainGdxGame extends ApplicationAdapter {
         player = new Fighter("Chad");
 		batch = new SpriteBatch();
         homescreen = new Texture(Gdx.files.internal("welcome.png"));
-        myHomescreen = new TextureRegion(homescreen, 0,0,512,512);
-        Gdx.input.setInputProcessor(new InputAdapter() {
+		myHomescreen = new TextureRegion(homescreen, 0,0,512,512);
 
+
+		//playing sound in background
+		welcomemusic = Gdx.audio.newMusic(Gdx.files.internal("welomsound.wav"));
+		welcomemusic.setLooping(true);
+		welcomemusic.play();
+		welcomemusic.setVolume(0.2f);
+
+
+
+        Gdx.input.setInputProcessor(new InputAdapter() {
+		
+		
             @Override
             public boolean keyDown (int keyCode) {
 
@@ -175,6 +188,7 @@ public class MainGdxGame extends ApplicationAdapter {
     @Override
     public void dispose() {
         //shapeRenderer.dispose();
+		welcomemusic.dispose();
 		homescreen.dispose();
         batch.dispose();
         currentTexture.dispose();
