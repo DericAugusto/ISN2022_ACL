@@ -7,6 +7,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
@@ -26,12 +27,10 @@ public class MainGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	BitmapFont font;
 	Texture currentTexture;
-	Texture texture;
-	
+	Texture homescreen;
+	TextureRegion myHomescreen;
 	Screen currentScreen = Screen.TITLE;
-
-    Fighter player;
-    
+    Fighter player; 
     int itempop = 0;
     int itemsnumber = 0;
     ArrayList<Item> Litems = new ArrayList<Item>();
@@ -43,11 +42,10 @@ public class MainGdxGame extends ApplicationAdapter {
     public void create() {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
-        player = new Fighter("Chad"); // player has been created here because textures have to be created in the create section
-        // font = new BitmapFont(); // for a font in a green color 
+        player = new Fighter("Chad");
 		batch = new SpriteBatch();
-        texture = new Texture(Gdx.files.internal("welcome.png"));
-        
+        homescreen = new Texture(Gdx.files.internal("welcome.png"));
+        myHomescreen = new TextureRegion(homescreen, 0,0,512,512);
         Gdx.input.setInputProcessor(new InputAdapter() {
 
             @Override
@@ -73,8 +71,9 @@ public class MainGdxGame extends ApplicationAdapter {
 
 			Gdx.gl.glClearColor(0.125f, 0.125f, .125f, 1);
 			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
             batch.begin();
-			batch.draw(texture, 0, 0);
+			batch.draw(myHomescreen,0,0);
             font.draw(batch, "V 2.0 !", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
             font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .5f);
             font.draw(batch, "Press space to play.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
@@ -144,9 +143,8 @@ public class MainGdxGame extends ApplicationAdapter {
         	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         	
         	batch.begin();
-        	//batch.disableBlending();
-        	font.draw(batch, "quit -> E", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
         	
+        	font.draw(batch, "quit -> E", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
         	batch.draw(currentTexture, player.locate()[0], player.locate()[1],player.textureWidth, player.textureHeight);
         	
         	for (int i = 0; i < Litems.size(); i++) {
@@ -177,6 +175,7 @@ public class MainGdxGame extends ApplicationAdapter {
     @Override
     public void dispose() {
         //shapeRenderer.dispose();
+		homescreen.dispose();
         batch.dispose();
         currentTexture.dispose();
     }
