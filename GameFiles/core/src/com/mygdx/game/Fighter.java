@@ -21,9 +21,11 @@ public class Fighter {
 	
 	Fighter(String name){
 		
+		// Setting player's initial characteristics 
 		pseudo = name;
 		xCoord = 200;
 		yCoord = 100;
+		// Character sprites
 		WalkR = new Texture[]{new Texture(Gdx.files.internal("WalkingPositionR1.png")),new Texture(Gdx.files.internal("WalkingPositionR2.png")),
 				new Texture(Gdx.files.internal("WalkingPositionR3.png")),new Texture(Gdx.files.internal("WalkingPositionR4.png")),
 				new Texture(Gdx.files.internal("WalkingPositionR5.png")),new Texture(Gdx.files.internal("WalkingPositionR6.png")),
@@ -41,7 +43,6 @@ public class Fighter {
 		textureHeight = Gdx.graphics.getHeight()/7;
 		textureWidth = Gdx.graphics.getWidth()/16;
 		
-		
 		HP = 1000; // initial HP
 		currentSpeed = 1; // initial speed
 		currentStrength = 1; // initial strength
@@ -53,6 +54,8 @@ public class Fighter {
 		return location;
 		
 	}
+
+	// Walking
 	Texture right() {
 		this.xCoord+=this.currentSpeed;
 		comp++;

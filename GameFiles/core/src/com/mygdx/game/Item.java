@@ -8,7 +8,7 @@ public class Item {
 	
 	float xCoord;
 	float yCoord;
-	enum itemType {healthPotion, strengthPotion, speedPotion, stone, monster,bomb,knife}
+	enum itemType {healthPotion, strengthPotion, speedPotion, stone, monster, bomb, knife}
 	itemType iT;
 	int comp;
 	Texture[] ItemSkins;

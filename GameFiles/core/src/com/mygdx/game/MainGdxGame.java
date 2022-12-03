@@ -16,7 +16,8 @@ import java.lang.Math;
 
 
 public class MainGdxGame extends ApplicationAdapter {
-    
+
+	// Defining the game's elements   
 	ShapeRenderer shapeRenderer;
 	
 	enum Screen{
@@ -37,14 +38,14 @@ public class MainGdxGame extends ApplicationAdapter {
     ArrayList<Item> Luseditems = new ArrayList<Item>();
     String[] randomItem = new String[] {"healthPotion","strengthPotion", "speedPotion","bomb","knife","monster","stone"};
     
-
+		// Defining players, textures and screens
     @Override
     public void create() {
         shapeRenderer = new ShapeRenderer();
         batch = new SpriteBatch();
         player = new Fighter("Chad"); // player has been created here because textures have to be created in the create section
         font = new BitmapFont();
-        
+
         Gdx.input.setInputProcessor(new InputAdapter() {
 
             @Override
@@ -66,6 +67,7 @@ public class MainGdxGame extends ApplicationAdapter {
     @Override
     public void render() {
     	
+			// Defining opening screen characteristics
     	if(currentScreen == Screen.TITLE){
 
             Gdx.gl.glClearColor(0, .25f, 0, 1);
@@ -78,8 +80,10 @@ public class MainGdxGame extends ApplicationAdapter {
             batch.end();
     	}
     	
+				// Game's screen
         else if(currentScreen == Screen.MAIN_MainGdxGame) {
         	
+					// Moving player commands
         	if(Gdx.input.isKeyPressed(Input.Keys.A)){
         		currentTexture = player.left();
         	}
@@ -91,6 +95,7 @@ public class MainGdxGame extends ApplicationAdapter {
         		player.comp = 0;
         	}
         	
+					// Itens controller 
         	itempop ++;
         	
         	if (itempop == 30) {
@@ -108,7 +113,7 @@ public class MainGdxGame extends ApplicationAdapter {
         			Litems.remove(i);
         		}
         		
-        		
+        		// Adding items effect to the player
         		if(Math.sqrt((player.xCoord-currentItem.xCoord)*(player.xCoord-currentItem.xCoord)+
         				(player.yCoord-currentItem.yCoord)*(player.yCoord-currentItem.yCoord)) < (player.textureWidth+currentItem.textureWidth)/2) {
         			
@@ -119,6 +124,7 @@ public class MainGdxGame extends ApplicationAdapter {
         		}
         	}
         	
+					// Defining effect time
         	for(int i = 0; i < Luseditems.size(); i++) {
         		
         		Item currentItem = Luseditems.get(i);
@@ -135,7 +141,7 @@ public class MainGdxGame extends ApplicationAdapter {
         	}
         	
         		
-        	
+        	// ? 
         	Gdx.gl.glClearColor(.25f, .25f, .25f, 1);
         	Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         	
@@ -158,7 +164,8 @@ public class MainGdxGame extends ApplicationAdapter {
         	shapeRenderer.circle(player.locate()[0],player.locate()[1] , 10);
         	shapeRenderer.end();*/
         }
-    	
+
+				// Defining GameOver screen characteristics
         else if(currentScreen == Screen.MainGdxGame_OVER){
             Gdx.gl.glClearColor(.25f, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -170,6 +177,7 @@ public class MainGdxGame extends ApplicationAdapter {
         }
     }
 
+		// ?
     @Override
     public void dispose() {
         //shapeRenderer.dispose();
