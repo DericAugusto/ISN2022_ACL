@@ -47,32 +47,37 @@ public class Item {
 	
 	void effect(Fighter player) {
 		
-		if (this.iT == itemType.healthPotion) {
-			player.HP += player.HP/2; 	// x 1,5
+		if (this.iT == itemType.healthPotion ) { // +300 HP 
+			if(player.HP < 700) {
+				player.HP += 300;
+			}
+			else {
+				player.HP = 1000;
+			}
 			effectCountdown = 1;
 		}
 		
-		else if (this.iT == itemType.strengthPotion) {
-			player.currentStrength = player.currentStrength*2; // x2
+		else if (this.iT == itemType.strengthPotion) { // +1 
+			if(player.currentStrength < 4) {
+				player.currentStrength += 1;
+			}
 			effectCountdown = 1;
 		}
-		else if (this.iT == itemType.speedPotion) {
-			player.currentSpeed += player.currentSpeed*2; // x2
+		else if (this.iT == itemType.speedPotion) { // +1
+			if(player.currentSpeed < 4) {
+				player.currentSpeed += 1;
+			}
 			effectCountdown = 1;
 		}
 	}
 	
 	void clearEffect(Fighter player) {
 		
-		if (this.iT == itemType.healthPotion) {
-			player.HP -= player.HP/2; 	// x 1,5
-		}
-		
-		else if (this.iT == itemType.strengthPotion) {
-			player.currentStrength = player.currentStrength/2; // x2
+		if (this.iT == itemType.strengthPotion) {
+			player.currentStrength = 1; 
 		}
 		else if (this.iT == itemType.speedPotion) {
-			player.currentSpeed = player.currentSpeed/2; // x2
+			player.currentSpeed = 1;
 		}
 	}
 	

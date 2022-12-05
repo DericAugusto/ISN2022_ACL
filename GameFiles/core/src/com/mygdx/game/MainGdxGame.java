@@ -80,10 +80,10 @@ public class MainGdxGame extends ApplicationAdapter {
     	
         else if(currentScreen == Screen.MAIN_MainGdxGame) {
         	
-        	if(Gdx.input.isKeyPressed(Input.Keys.A)){
+        	if(Gdx.input.isKeyPressed(Input.Keys.A) & player.xCoord > 0){
         		currentTexture = player.left();
         	}
-        	else if(Gdx.input.isKeyPressed(Input.Keys.D)){
+        	else if(Gdx.input.isKeyPressed(Input.Keys.D) & player.xCoord < 600){
         		currentTexture = player.right(); // --> depile une walking frame
         	}
         	else {
@@ -126,7 +126,7 @@ public class MainGdxGame extends ApplicationAdapter {
         		if(currentItem.effectCountdown >= 1) {
         			currentItem.effectCountdown+=1;
         			
-        			if(currentItem.effectCountdown >= 300) {
+        			if(currentItem.effectCountdown >= 600) {
         				
         				currentItem.clearEffect(player);
         				Luseditems.remove(i);
@@ -152,11 +152,34 @@ public class MainGdxGame extends ApplicationAdapter {
         	}
         	
         	batch.end();
-
-        	/*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        	
+        	// HP bar
+        	
+        	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         	shapeRenderer.setColor(255, 255, 255, 1);
-        	shapeRenderer.circle(player.locate()[0],player.locate()[1] , 10);
-        	shapeRenderer.end();*/
+        	shapeRenderer.rect(10,450, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
+        	shapeRenderer.end();
+        	
+        	shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        	shapeRenderer.setColor(1, 0, 0, 1);
+        	shapeRenderer.rect(10,451, ((player.HP)*(Gdx.graphics.getWidth()/4))/1000,Gdx.graphics.getHeight()/200-2);
+        	shapeRenderer.end();
+        	
+        	// Stength bar
+        	
+        	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        	shapeRenderer.setColor(255, 255, 255, 1);
+        	shapeRenderer.rect(10,440, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
+        	shapeRenderer.end();
+        	
+        	shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        	shapeRenderer.setColor(0, 1, 0, 1);
+        	shapeRenderer.rect(10,441, ((player.currentStrength)*(Gdx.graphics.getWidth()/4))/4,Gdx.graphics.getHeight()/200-2);
+        	shapeRenderer.end();
+        	
+        	
+        	
+        	
         }
     	
         else if(currentScreen == Screen.MainGdxGame_OVER){
@@ -172,7 +195,7 @@ public class MainGdxGame extends ApplicationAdapter {
 
     @Override
     public void dispose() {
-        //shapeRenderer.dispose();
+        shapeRenderer.dispose();
         batch.dispose();
         currentTexture.dispose();
     }

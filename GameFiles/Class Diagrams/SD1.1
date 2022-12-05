@@ -1,0 +1,95 @@
+@startuml
+
+actor Player #purple
+
+participant Main #palegreen
+participant Fighter #pink
+participant Item #aliceblue
+
+Main -> Fighter : Fighter( )
+
+group 60 FPS [render()]
+
+	alt title screen
+		Main -> Main : draw( )
+	
+	else game screen
+	
+		alt input key A
+			
+			Player -> Main : type A
+			Main -> Fighter : left( )
+			activate Fighter
+			Fighter --> Main : texture
+			deactivate Fighter
+		
+		else input key D
+			
+			Player -> Main : type D
+			Main -> Fighter : right( )
+			activate Fighter
+			Fighter --> Main : texture
+			deactivate Fighter
+		
+		else no input
+		
+			Main -> Fighter : stand( )
+		
+		end
+		
+		opt item pop
+		
+			Main -> Item : Item( )
+		end
+		loop on List items
+			
+			Main -> Item : move( )
+			activate Item
+			Item --> Main : boolean
+			deactivate Item
+			opt True
+			
+				Main -> Main : remove item from List items
+			end
+			
+			opt player interact with an item
+			
+				Main -> Item : effect( Fighter )
+				Main -> Main : remove item from Litems
+				Main -> Main : add Item to LusedItems
+			end
+		end
+		
+		loop on List usedItems
+			
+			opt time effect exceeded
+			
+				Main -> Item : clearEffect( Fighter )
+				Main -> Main : remove item from List usedItems
+			end
+		end
+		
+		Main -> Main : draw( )
+		Main -> Fighter : locate( ) 
+		activate Fighter
+		Fighter --> Main : ( x,y )
+		deactivate Fighter
+		
+		loop on List items
+			
+			Main -> Main : draw( )
+			Main -> Item : locate( )
+			activate Item
+			Item --> Main : ( x,y ) 
+			deactivate Item
+		end
+		
+	else over screen
+	
+		Main -> Main : draw( )
+	
+	end
+end
+
+@enduml
+
