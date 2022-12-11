@@ -29,9 +29,11 @@ public class MainGdxGame extends ApplicationAdapter {
   BitmapFont font;
   Texture currentTexture;
 
-  Music themeMusic;
+  Music introMusic;
+  Music gameplayMusic;
   Music walkingSound;
   Sound potionSound;
+  Music gameOverSound;
 
   Screen currentScreen = Screen.TITLE;
   Fighter player;
@@ -67,20 +69,20 @@ public class MainGdxGame extends ApplicationAdapter {
       }
     });
 
-    // Creating the game's theme music
-    themeMusic = Gdx.audio.newMusic(Gdx.files.internal("CrystalightDelver.mp3"));
-    themeMusic.setVolume(0.2f); // max volume in 1.0f
-    themeMusic.setLooping(true);
-    themeMusic.play();
+    // Defining game's musics
+    gameplayMusic = Gdx.audio.newMusic(Gdx.files.internal("CrystalightDelver.mp3"));
+    gameplayMusic.setVolume(0.2f); // max volume in 1.0f
+    gameplayMusic.setLooping(true);
+    introMusic = Gdx.audio.newMusic(Gdx.files.internal("welcomsound.wav"));
+    introMusic.setVolume(0.2f); // max volume in 1.0f
+    introMusic.setLooping(true);
 
     // Defining game's sounds
     walkingSound = Gdx.audio.newMusic(Gdx.files.internal("mixkit-footsteps-in-woods-loop-533.wav"));
     walkingSound.setVolume(0.2f); // max volume in 1.0f
     walkingSound.setLooping(true);
     potionSound = Gdx.audio.newSound(Gdx.files.internal("arcade-bleep-sound-6071.mp3"));
-    //long potionSoundId = potionSound.play(1.0f);
-    //potionSound.setPitch(potionSoundId, 1);
-    //potionSound.setLooping(potionSoundId, false);
+    gameOverSound = Gdx.audio.newMusic(Gdx.files.internal("sacred-garden-10377.mp3"));
   }
 
   @Override
@@ -96,10 +98,19 @@ public class MainGdxGame extends ApplicationAdapter {
       font.draw(batch, "Press space to play.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
       font.draw(batch, "<--Q D-->", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .30f);
       batch.end();
+
+      gameOverSound.stop();
+      introMusic.play();
     }
 
     // Game's screen
     else if (currentScreen == Screen.MAIN_MainGdxGame) {
+
+      // Gameplay musics
+      introMusic.stop();
+      gameOverSound.stop();
+      gameplayMusic.play();
+
       // Moving player commands
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         currentTexture = player.left();
@@ -140,7 +151,8 @@ public class MainGdxGame extends ApplicationAdapter {
           currentItem.effect(player);
           Litems.remove(i);
           Luseditems.add(currentItem);
-          potionSound.play();
+          long potionSoundId = potionSound.play(0.5f);
+          potionSound.setPitch(potionSoundId, 1);
         }
       }
 
@@ -170,7 +182,7 @@ public class MainGdxGame extends ApplicationAdapter {
 
       for (int i = 0; i < Litems.size(); i++) {
         batch.draw(Litems.get(i).ItemSkins[0], Litems.get(i).locate()[0], Litems.get(i).locate()[1],
-            Litems.get(i).textureWidth, Litems.get(i).textureHeight);
+        Litems.get(i).textureWidth, Litems.get(i).textureHeight);
       }
 
       batch.end();
@@ -186,6 +198,10 @@ public class MainGdxGame extends ApplicationAdapter {
       font.draw(batch, "END SCREEN", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
       font.draw(batch, "Press enter to restart.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
       batch.end();
+
+      // executes game over sound once
+      gameplayMusic.stop();
+      gameOverSound.play();
     }
   }
 
@@ -194,8 +210,10 @@ public class MainGdxGame extends ApplicationAdapter {
   public void dispose() {
     batch.dispose();
     currentTexture.dispose();
-    themeMusic.dispose();
+    gameplayMusic.dispose();
     walkingSound.dispose();
     potionSound.dispose();
+    introMusic.dispose();
+    gameOverSound.dispose();
   }
 }
