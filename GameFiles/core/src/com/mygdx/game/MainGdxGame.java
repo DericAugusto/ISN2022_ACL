@@ -124,10 +124,9 @@ public class MainGdxGame extends ApplicationAdapter {
         walkingSound.pause();
       }
 
-      // Itens controller
+      // Item's controller
       itempop++;
-
-      if (itempop == 30) {
+      if (itempop == 200) {
         itempop = 0;
         itemsnumber += 1;
         Litems.add(new Item(randomItem[MathUtils.random(randomItem.length - 1)]));
@@ -141,7 +140,7 @@ public class MainGdxGame extends ApplicationAdapter {
           Litems.remove(i);
         }
 
-        // Adding items effect to the player
+        // Adding item's effect to the player
         if (Math.sqrt((player.xCoord - currentItem.xCoord) * 
         (player.xCoord - currentItem.xCoord) +
         (player.yCoord - currentItem.yCoord) *

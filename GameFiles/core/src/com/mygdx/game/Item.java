@@ -98,8 +98,10 @@ public class Item {
 			effectCountdown = 1;
 		}
 		else if (this.iT == itemType.speedPotion) {
-			player.currentSpeed += player.currentSpeed*2; // x2
-			effectCountdown = 1;
+			if (player.currentSpeed < 4){
+				player.currentSpeed += player.currentSpeed*2; // x2
+				effectCountdown = 1;
+			}
 		}
 	}
 	
@@ -116,9 +118,9 @@ public class Item {
 	
 	Boolean move() {
 		
-		if (this.yCoord > 100) {
+		if (this.yCoord > 99) {
 			
-			this.yCoord -= 60*Gdx.graphics.getDeltaTime();
+			this.yCoord -= 50*Gdx.graphics.getDeltaTime();
 			return false;
 		}
 		
