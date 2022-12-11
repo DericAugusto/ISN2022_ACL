@@ -10,13 +10,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
+
 import java.util.ArrayList;
 import com.badlogic.gdx.math.MathUtils;
 import java.lang.Math;
 
 public class MainGdxGame extends ApplicationAdapter {
 
-  // Defining the game's elements
+  // Defining game's elements
   ShapeRenderer shapeRenderer;
 
   enum Screen {
@@ -27,11 +29,9 @@ public class MainGdxGame extends ApplicationAdapter {
   BitmapFont font;
   Texture currentTexture;
 
-  //Texture currentTexture;
-  //Texture homescreen;
-	//TextureRegion myHomescreen;
-
   Music themeMusic;
+  Music walkingSound;
+  Sound potionSound;
 
   Screen currentScreen = Screen.TITLE;
   Fighter player;
@@ -53,9 +53,6 @@ public class MainGdxGame extends ApplicationAdapter {
     // to be created in the...
     font = new BitmapFont();
 
-    //homescreen = new Texture(Gdx.files.internal("welcome.png"));
-		//myHomescreen = new TextureRegion(homescreen, 0, 0, 512, 512);
-
     Gdx.input.setInputProcessor(new InputAdapter() {
       @Override
       public boolean keyDown(int keyCode) {
@@ -70,12 +67,20 @@ public class MainGdxGame extends ApplicationAdapter {
       }
     });
 
-    // Creating the game's theme sound
+    // Creating the game's theme music
     themeMusic = Gdx.audio.newMusic(Gdx.files.internal("CrystalightDelver.mp3"));
     themeMusic.setVolume(0.2f); // max volume in 1.0f
     themeMusic.setLooping(true);
     themeMusic.play();
 
+    // Defining game's sounds
+    walkingSound = Gdx.audio.newMusic(Gdx.files.internal("mixkit-footsteps-in-woods-loop-533.wav"));
+    walkingSound.setVolume(0.2f); // max volume in 1.0f
+    walkingSound.setLooping(true);
+    potionSound = Gdx.audio.newSound(Gdx.files.internal("arcade-bleep-sound-6071.mp3"));
+    //long potionSoundId = potionSound.play(1.0f);
+    //potionSound.setPitch(potionSoundId, 1);
+    //potionSound.setLooping(potionSoundId, false);
   }
 
   @Override
@@ -86,7 +91,6 @@ public class MainGdxGame extends ApplicationAdapter {
       Gdx.gl.glClearColor(0, .25f, 0, 1);
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
       batch.begin();
-      //batch.draw(myHomescreen, 0, 0);
       font.draw(batch, "V 1.0 !", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
       font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .5f);
       font.draw(batch, "Press space to play.", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .25f);
@@ -99,11 +103,14 @@ public class MainGdxGame extends ApplicationAdapter {
       // Moving player commands
       if (Gdx.input.isKeyPressed(Input.Keys.A)) {
         currentTexture = player.left();
+        walkingSound.play();
       } else if (Gdx.input.isKeyPressed(Input.Keys.D)) {
         currentTexture = player.right(); // --> depile une walking frame
+        walkingSound.play();
       } else {
         currentTexture = player.stand();
         player.comp = 0;
+        walkingSound.pause();
       }
 
       // Itens controller
@@ -133,6 +140,7 @@ public class MainGdxGame extends ApplicationAdapter {
           currentItem.effect(player);
           Litems.remove(i);
           Luseditems.add(currentItem);
+          potionSound.play();
         }
       }
 
@@ -145,7 +153,6 @@ public class MainGdxGame extends ApplicationAdapter {
           currentItem.effectCountdown += 1;
 
           if (currentItem.effectCountdown >= 300) {
-
             currentItem.clearEffect(player);
             Luseditems.remove(i);
           }
@@ -157,7 +164,6 @@ public class MainGdxGame extends ApplicationAdapter {
       Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
       batch.begin();
-      // batch.disableBlending();
       font.draw(batch, "quit -> E", Gdx.graphics.getWidth() * .25f, Gdx.graphics.getHeight() * .75f);
 
       batch.draw(currentTexture, player.locate()[0], player.locate()[1], player.textureWidth, player.textureHeight);
@@ -169,12 +175,6 @@ public class MainGdxGame extends ApplicationAdapter {
 
       batch.end();
 
-      /*
-       * shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-       * shapeRenderer.setColor(255, 255, 255, 1);
-       * shapeRenderer.circle(player.locate()[0],player.locate()[1] , 10);
-       * shapeRenderer.end();
-       */
     }
 
     // Defining GameOver screen characteristics
@@ -189,13 +189,13 @@ public class MainGdxGame extends ApplicationAdapter {
     }
   }
 
-  // ?
+  // Dispose Method
   @Override
   public void dispose() {
-    // shapeRenderer.dispose();
     batch.dispose();
     currentTexture.dispose();
-    //homescreen.dispose();
     themeMusic.dispose();
+    walkingSound.dispose();
+    potionSound.dispose();
   }
 }

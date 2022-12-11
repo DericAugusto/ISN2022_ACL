@@ -60,9 +60,6 @@ public class Fighter {
 		this.xCoord+=this.currentSpeed;
 		comp++;
 		return this.WalkR[((comp-1)/(4*this.currentSpeed))%12];
-		
-		// this.texture = 
-		// else if compt != 0 num frame compt+1%7 else num frame = 1
 	}
 	Texture left() {
 		this.xCoord-=this.currentSpeed;
@@ -76,15 +73,6 @@ public class Fighter {
 
 }
 
-/*@startuml
-skinparam classAttributeIconSize 0
-class Dummy {
-	-field1
-	#field2
-	~method1()
-	+method2()
-}
-@enduml*/
 
 
 
