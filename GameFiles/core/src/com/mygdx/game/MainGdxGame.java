@@ -35,7 +35,7 @@ public class MainGdxGame extends ApplicationAdapter {
     int itemsnumber = 0;
     ArrayList<Item> Litems = new ArrayList<Item>();
     ArrayList<Item> Luseditems = new ArrayList<Item>();
-    String[] randomItem = new String[] {"healthPotion","strengthPotion", "speedPotion"};
+    String[] randomItem = new String[] {"healthPotion","strengthPotion", "speedPotion","bomb","knife","monster","stone"};
     
 
     @Override
