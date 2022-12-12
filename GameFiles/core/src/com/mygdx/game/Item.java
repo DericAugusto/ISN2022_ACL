@@ -74,7 +74,7 @@ public class Item {
 	void effect(Fighter player) {
 		
 		if (this.iT == itemType.healthPotion) {
-			player.HP += player.HP/2; 	// x 1,5
+			player.HP += 30; 	
 			effectCountdown = 1;
 		}
 		
@@ -90,16 +90,29 @@ public class Item {
 			}
 			effectCountdown = 1;
 		}
+
+
+		else if (this.iT == itemType.stone) {
+			player.HP-=25;
+		}
+
+		else if (this.iT == itemType.knife) {
+			player.HP-=75;
+		}
+
+		else if (this.iT == itemType.bomb) {
+			player.HP-=100;
+		}
+
+		else if (this.iT == itemType.monster) {
+			player.HP-=200;
+		}
 	}
 	
 	void clearEffect(Fighter player) {
 		
-		if (this.iT == itemType.healthPotion) {
-			player.HP -= player.HP/2; 	// x 1,5
-		}
-		
-		else if (this.iT == itemType.strengthPotion) {
-			player.currentStrength = player.currentStrength/2; // x2
+		if (this.iT == itemType.strengthPotion) {
+			player.currentStrength = 1;
 		}
 		else if (this.iT == itemType.speedPotion) {
 			player.currentSpeed = 1;

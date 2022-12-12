@@ -16,8 +16,8 @@ public class Fighter {
 	float textureWidth;
 	
 	float HP;
-	int currentSpeed;
-	float currentStrength;
+	float currentSpeed;
+	int currentStrength;
 	
 	Fighter(String name){
 		
@@ -56,7 +56,7 @@ public class Fighter {
 	Texture right() {
 		this.xCoord+=this.currentSpeed;
 		comp++;
-		return this.WalkR[((comp-1)/(4*this.currentSpeed))%12];
+		return this.WalkR[(int) (((comp-1)/(4*this.currentSpeed))%12)];
 		
 		// this.texture = 
 		// else if compt != 0 num frame compt+1%7 else num frame = 1
@@ -64,7 +64,7 @@ public class Fighter {
 	Texture left() {
 		this.xCoord-=this.currentSpeed;
 		comp++;
-		return this.WalkL[((comp-1)/(4*this.currentSpeed))%12];
+		return this.WalkL[(int) (((comp-1)/(4*this.currentSpeed))%12)];
 	}
 	
 	Texture stand() {

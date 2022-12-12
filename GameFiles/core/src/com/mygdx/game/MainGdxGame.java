@@ -150,6 +150,18 @@ public class MainGdxGame extends ApplicationAdapter {
             	batch.draw(Litems.get(i).ItemSkins[0], Litems.get(i).locate()[0], Litems.get(i).locate()[1],Litems.get(i).textureWidth, Litems.get(i).textureHeight);
             	
         	}
+
+          float HP = player.HP;
+          int strength = player.currentStrength * 100;
+          float speed = player.currentSpeed * 100;
+          
+          String hp_in_Text = Integer.toString((int) HP);
+          String strength_in_Text = Integer.toString((int) strength);
+          String speed_in_Text = Integer.toString((int) speed);
+
+          font.draw(batch, "Heartpoint: " + hp_in_Text , Gdx.graphics.getWidth()*.30f, Gdx.graphics.getHeight() * .95f );
+          font.draw(batch, "Strength: " + strength_in_Text + "%", Gdx.graphics.getWidth()*.30f, Gdx.graphics.getHeight() * .92f );
+          font.draw(batch, "Speed: " + speed_in_Text + "%", Gdx.graphics.getWidth()*.30f, Gdx.graphics.getHeight() * .89f );
         	
         	batch.end();
         	
@@ -169,17 +181,14 @@ public class MainGdxGame extends ApplicationAdapter {
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         	shapeRenderer.setColor(255, 255, 255, 1);
-        	shapeRenderer.rect(10,440, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
+        	shapeRenderer.rect(10,435, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
         	shapeRenderer.end();
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         	shapeRenderer.setColor(0, 1, 0, 1);
-        	shapeRenderer.rect(10,441, ((player.currentStrength)*(Gdx.graphics.getWidth()/4))/4,Gdx.graphics.getHeight()/200-2);
+        	shapeRenderer.rect(10,435, ((player.currentStrength)*(Gdx.graphics.getWidth()/4))/4,Gdx.graphics.getHeight()/200-2);
         	shapeRenderer.end();
-        	
-        	
-        	
-        	
+        	        
         }
     	
         else if(currentScreen == Screen.MainGdxGame_OVER){
