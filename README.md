@@ -11,3 +11,8 @@ Members of the group:
 * Ibrahim Souley 
 * Adrien Audren
 
+Build auto: Gradle 
+
+> /GameFiles
+> ./gradlew run
+
