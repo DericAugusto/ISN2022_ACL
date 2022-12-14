@@ -2,76 +2,231 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class Fighter {
 	
 	float xCoord;
 	float yCoord;
+	boolean sideIndicator;
+	
 	String pseudo;
-	int comp;
-	Texture Stand;
-	Texture[] WalkR;
-	Texture[] WalkL;
+	
+	int textureTick;
+	Texture texture;
+	Sprite sprite;
+	
+	
+	Texture[] Idle;
+	Texture[] Walk;
+	Texture[][] attackTexture;
+	
 	float textureHeight;
 	float textureWidth;
 	
+	int currentAttack;
+	boolean attack = false;
+    int attackDuration;
+	
 	float HP;
-	float currentSpeed;
-	int currentStrength;
+	int currentSpeed;
+	float currentStrength;
+	
 	
 	Fighter(String name){
 		
-		// Setting player's initial characteristics 
 		pseudo = name;
 		xCoord = 200;
 		yCoord = 100;
-		// Character sprites
-		WalkR = new Texture[]{new Texture(Gdx.files.internal("WalkingPositionR1.png")),new Texture(Gdx.files.internal("WalkingPositionR2.png")),
-				new Texture(Gdx.files.internal("WalkingPositionR3.png")),new Texture(Gdx.files.internal("WalkingPositionR4.png")),
-				new Texture(Gdx.files.internal("WalkingPositionR5.png")),new Texture(Gdx.files.internal("WalkingPositionR6.png")),
-				new Texture(Gdx.files.internal("WalkingPositionR7.png")),new Texture(Gdx.files.internal("WalkingPositionR8.png")),
-				new Texture(Gdx.files.internal("WalkingPositionR9.png")),new Texture(Gdx.files.internal("WalkingPositionR10.png")),
-				new Texture(Gdx.files.internal("WalkingPositionR11.png")),new Texture(Gdx.files.internal("WalkingPositionR12.png")),};
-		Stand = new Texture(Gdx.files.internal("StandingPosition.png"));
-		WalkL = new Texture[]{new Texture(Gdx.files.internal("WalkingPositionL1.png")),new Texture(Gdx.files.internal("WalkingPositionL2.png")),
-				new Texture(Gdx.files.internal("WalkingPositionL3.png")),new Texture(Gdx.files.internal("WalkingPositionL4.png")),
-				new Texture(Gdx.files.internal("WalkingPositionL5.png")),new Texture(Gdx.files.internal("WalkingPositionL6.png")),
-				new Texture(Gdx.files.internal("WalkingPositionL7.png")),new Texture(Gdx.files.internal("WalkingPositionL8.png")),
-				new Texture(Gdx.files.internal("WalkingPositionL9.png")),new Texture(Gdx.files.internal("WalkingPositionL10.png")),
-				new Texture(Gdx.files.internal("WalkingPositionL11.png")),new Texture(Gdx.files.internal("WalkingPositionL12.png")),};
 		
-		textureHeight = Gdx.graphics.getHeight()/7;
-		textureWidth = Gdx.graphics.getWidth()/16;
+		
+		
+		Idle = new Texture[]{new Texture(Gdx.files.internal("idleR-1.png")),new Texture(Gdx.files.internal("idleR-2.png")),
+				new Texture(Gdx.files.internal("idleR-3.png")),new Texture(Gdx.files.internal("idleR-4.png")),
+				new Texture(Gdx.files.internal("idleR-5.png")),new Texture(Gdx.files.internal("idleR-6.png"))};
+		
+		Walk = new Texture[]{new Texture(Gdx.files.internal("runR-1.png")),new Texture(Gdx.files.internal("runR-2.png")),
+				new Texture(Gdx.files.internal("runR-3.png")),new Texture(Gdx.files.internal("runR-4.png")),
+				new Texture(Gdx.files.internal("runR-5.png")),new Texture(Gdx.files.internal("runR-6.png")),
+				new Texture(Gdx.files.internal("runR-7.png")),new Texture(Gdx.files.internal("runR-8.png")),
+				new Texture(Gdx.files.internal("runR-9.png")),new Texture(Gdx.files.internal("runR-10.png")),
+				new Texture(Gdx.files.internal("runR-11.png")),new Texture(Gdx.files.internal("runR-12.png")),};
+		
+		attackTexture = new Texture[][]{new Texture[]{new Texture(Gdx.files.internal("attack-A1-P.png")),new Texture(Gdx.files.internal("attack-A2-P.png")),
+				new Texture(Gdx.files.internal("attack-A3-P.png")),new Texture(Gdx.files.internal("attack-A4-P.png")),
+				new Texture(Gdx.files.internal("attack-A5-P.png")),new Texture(Gdx.files.internal("attack-A6-P.png")),
+				new Texture(Gdx.files.internal("attack-A7-P.png")),new Texture(Gdx.files.internal("attack-A8-P.png"))},
+			new Texture[]{new Texture(Gdx.files.internal("jump-attack-1.png")),new Texture(Gdx.files.internal("jump-attack-2.png")),
+					new Texture(Gdx.files.internal("jump-attack-3.png")),new Texture(Gdx.files.internal("jump-attack-4.png")),
+					new Texture(Gdx.files.internal("jump-attack-5.png")),new Texture(Gdx.files.internal("jump-attack-6.png")),
+					new Texture(Gdx.files.internal("jump-attack-7.png")),new Texture(Gdx.files.internal("jump-attack-8.png"))}};
+		
+				
+		textureHeight = Gdx.graphics.getHeight()/4;
+		textureWidth = Gdx.graphics.getWidth()/6;
+		
 		
 		HP = 1000; // initial HP
-		currentSpeed = 1; // initial speed
+		currentSpeed = 2; // initial speed
 		currentStrength = 1; // initial strength
 	}
 	
-	float[] locate() {
-		
-		float[] location = new float[]{this.xCoord, this.yCoord};
-		return location;
-		
+	
+	public float getxCoord() {
+		return xCoord;
 	}
-
-	// Walking
-	Texture right() {
-		this.xCoord+=this.currentSpeed;
-		comp++;
-		return this.WalkR[(int) (((comp-1)/(4*this.currentSpeed))%12)];
-		
-		// this.texture = 
-		// else if compt != 0 num frame compt+1%7 else num frame = 1
-	}
-	Texture left() {
-		this.xCoord-=this.currentSpeed;
-		comp++;
-		return this.WalkL[(int) (((comp-1)/(4*this.currentSpeed))%12)];
+	public float getyCoord() {
+		return yCoord;
 	}
 	
-	Texture stand() {
-		return this.Stand;
+	public void setxCoord(float xCoord) {
+		this.xCoord = xCoord;
+	}
+	public void setyCoord(float yCoord) {
+		this.yCoord = yCoord;
+	}
+	
+	
+	public float getHP() {
+		return HP;
+	}
+
+
+	public void setHP(float hP) {
+		HP = hP;
+	}
+
+
+	public int getCurrentSpeed() {
+		return currentSpeed;
+	}
+
+
+	public void setCurrentSpeed(int currentSpeed) {
+		this.currentSpeed = currentSpeed;
+	}
+
+
+	public float getCurrentStrength() {
+		return currentStrength;
+	}
+
+
+	public void setCurrentStrength(float currentStrength) {
+		this.currentStrength = currentStrength;
+	}
+
+
+	public void setSideIndicator(boolean sideIndicator) {
+		this.sideIndicator = sideIndicator;
+	}
+	
+	public int getTextureTick() {
+		return textureTick;
+	}
+
+	public void setTextureTick(int textureTick) {
+		this.textureTick = textureTick;
+	}
+
+	public int getCurrentAttack() {
+		return currentAttack;
+	}
+	public void setCurrentAttack(int currentAttack) {
+		this.currentAttack = currentAttack;
+	}
+	public boolean isAttack() {
+		return attack;
+	}
+	public void setAttack(boolean attack) {
+		this.attack = attack;
+	}
+	public int getAttackDuration() {
+		return attackDuration;
+	}
+	public void setAttackDuration(int attackDuration) {
+		this.attackDuration = attackDuration;
+	}
+	
+	
+	public Sprite getSprite() {
+		return sprite;
+	}
+
+
+	// this.texture = 
+		// else if textureTickt != 0 num frame textureTickt+1%7 else num frame = 1
+	void walkL() {
+		this.xCoord-=this.currentSpeed;
+		textureTick++;
+		
+		this.texture = this.Walk[((textureTick-1)/(2*this.currentSpeed))%12];
+		this.sprite = new Sprite(this.texture);
+		this.sprite.flip(this.sideIndicator, false);
+		this.sprite.setPosition(this.xCoord, this.yCoord);
+		this.sprite.setSize(this.textureWidth, this.textureHeight);
+		
+	}
+	void walkR() {
+		this.xCoord+=this.currentSpeed;
+		textureTick++;
+		
+		this.texture = this.Walk[((textureTick-1)/(2*this.currentSpeed))%12];
+		this.sprite = new Sprite(this.texture);
+		this.sprite.flip(this.sideIndicator, false);
+		this.sprite.setPosition(this.xCoord, this.yCoord);
+		this.sprite.setSize(this.textureWidth, this.textureHeight);
+		
+	}
+	
+	void idle() {
+		textureTick++;
+		this.texture = this.Idle[((textureTick-1)/42)%6];
+		this.sprite = new Sprite(this.texture);
+		this.sprite.flip(this.sideIndicator, false);
+		this.sprite.setSize(this.textureWidth, this.textureHeight);
+		this.sprite.setPosition(this.xCoord, this.yCoord);
+	}
+	
+	void fight(){
+		if(this.currentAttack == 2) {
+			if(textureTick*7/(attackDuration-1) < 4) {
+				this.yCoord += 8 ;
+			}
+			else if(textureTick*7/(attackDuration-1) >= 4 & this.yCoord >= 200) {
+				this.yCoord =  this.yCoord/2;
+			}
+			
+		}
+		this.texture = this.attackTexture[this.currentAttack-1][(textureTick*7/(attackDuration-1))];
+		this.sprite = new Sprite(this.texture);
+		this.sprite.flip(this.sideIndicator, false);
+		this.sprite.setSize(this.textureWidth, this.textureHeight);
+		this.sprite.setPosition(this.xCoord, this.yCoord);
+		
+	}
+	
+	void hit(Ennemy ennemy) {
+		if(ennemy.getHP() >= 50*this.currentStrength) {
+			ennemy.setHP(ennemy.getHP()-50*this.currentStrength);
+		}
+		
+	}
+	
+	boolean reach(Ennemy ennemy) {
+		return Math.sqrt((this.xCoord-ennemy.getxCoord())*(this.xCoord-ennemy.getxCoord())+
+				(this.yCoord-ennemy.getyCoord())*(this.yCoord-ennemy.getyCoord())) < (this.textureWidth)/2;
+	}
+	
+	void reset() {
+		
+		this.HP = 1000; // initial HP
+		this.currentSpeed = 2; // initial speed
+		this.currentStrength = 1; // initial strength
+		this.xCoord = 200;
+		this.yCoord = 100;
+		this.textureTick = 0;
+		
 	}
 
 }
