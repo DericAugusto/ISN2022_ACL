@@ -24,13 +24,16 @@ public class MainGdxGame extends ApplicationAdapter {
 	ShapeRenderer shapeRenderer;
 	
 	enum Screen{
-    TITLE, MAIN_MainGdxGame, MainGdxGame_OVER;
+    TITLE, MAIN_MainGdxGame, MainGdxGame_OVER, MAIN_GdxPause;
   }
 	
 	SpriteBatch batch;
 	BitmapFont font;
 	Texture currentTexture;
-
+  Texture backgroundMenu;
+  Texture backgroundGame;
+  Texture backgroundPause;
+  Texture backgroundEnd;
 	Music music;
 	
 	Screen currentScreen = Screen.TITLE;
@@ -57,6 +60,13 @@ public class MainGdxGame extends ApplicationAdapter {
         if(currentScreen == Screen.TITLE && keyCode == Input.Keys.SPACE){
           currentScreen = Screen.MAIN_MainGdxGame;
         }
+        else if(currentScreen == Screen.MAIN_MainGdxGame && keyCode == Input.Keys.S){
+          currentScreen = Screen.MAIN_GdxPause;
+        }
+
+        else if (currentScreen == Screen.MAIN_GdxPause && keyCode == Input.Keys.R){
+          currentScreen = Screen.MAIN_MainGdxGame;
+        }
         else if(currentScreen == Screen.MainGdxGame_OVER && keyCode == Input.Keys.ENTER){
           currentScreen = Screen.TITLE;
         }
@@ -71,6 +81,13 @@ public class MainGdxGame extends ApplicationAdapter {
     music.setVolume(0.2f); // max volume in 1.0f
     music.setLooping(true);
     music.play();
+    // Creating different background 
+    backgroundMenu = new Texture(Gdx.files.internal("JeuLogo.png"));
+    backgroundGame = new Texture(Gdx.files.internal("ground1.png"));
+    backgroundPause = new Texture(Gdx.files.internal("pause.png"));
+    backgroundEnd = new Texture(Gdx.files.internal("gameOver.png"));
+
+  
 
   }
 
@@ -82,15 +99,17 @@ public void render() {
     Gdx.gl.glClearColor(0, .25f, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     batch.begin();
+    batch.draw(backgroundMenu, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     font.draw(batch, "V 1.0 !", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
     font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .5f);
     font.draw(batch, "Press space to play.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
+    font.draw(batch, "Press S to pause.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .15f);
     font.draw(batch, "<--Q D-->", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .30f);
     batch.end();
   }
     	
   // Game's screen
-  else if(currentScreen == Screen.MAIN_MainGdxGame) {   
+  else if(currentScreen == Screen.MAIN_MainGdxGame) { 
     // Moving player commands
     if(Gdx.input.isKeyPressed(Input.Keys.A) & player.xCoord > 0){
       currentTexture = player.left();
@@ -156,7 +175,9 @@ public void render() {
     
     batch.begin();
     //batch.disableBlending();
+    batch.draw(backgroundGame, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
     font.draw(batch, "quit -> E", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
+    font.draw(batch, "PAUSE -> S", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .80f);
     
     batch.draw(currentTexture, player.locate()[0], player.locate()[1],player.textureWidth, player.textureHeight);
     
@@ -193,7 +214,7 @@ public void render() {
         	// Stength bar
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-    shapeRenderer.setColor(255, 255, 255, 1);
+        shapeRenderer.setColor(255, 255, 255, 1);
     shapeRenderer.rect(10,435, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
         	shapeRenderer.end();
         	
@@ -204,14 +225,22 @@ public void render() {
         	        
   }
 
+  else if(currentScreen == Screen.MAIN_GdxPause){
+
+    batch.begin();
+    batch.draw(backgroundPause, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    font.draw(batch, "Press R to restart.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
+    batch.end();
+  }
+
   // Defining GameOver screen characteristics
   else if(currentScreen == Screen.MainGdxGame_OVER){
     Gdx.gl.glClearColor(.25f, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
     batch.begin();
-    font.draw(batch, "END SCREEN", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
-    font.draw(batch, "Press enter to restart.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
+    batch.draw(backgroundEnd, 0 , 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    font.draw(batch, "Press enter", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
     batch.end();
   }
 }
