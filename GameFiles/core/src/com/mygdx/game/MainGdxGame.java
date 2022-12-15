@@ -239,6 +239,7 @@ public void render() {
 
   // Defining GameOver screen characteristics
   else if(currentScreen == Screen.MainGdxGame_OVER){
+    player.HP = 1000;
     Gdx.gl.glClearColor(.25f, 0, 0, 1);
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
