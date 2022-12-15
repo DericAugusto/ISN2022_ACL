@@ -102,7 +102,10 @@ public void render() {
       currentTexture = player.stand();
       player.comp = 0;
     }
-        	
+  if (player.HP <=0){
+    currentScreen = Screen.MainGdxGame_OVER;
+  }
+    
     // Itens controller 
     itempop ++;
     
