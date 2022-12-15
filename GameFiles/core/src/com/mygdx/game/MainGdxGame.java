@@ -104,7 +104,7 @@ public void render() {
     font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .5f);
     font.draw(batch, "Press space to play.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
     font.draw(batch, "Press S to pause.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .15f);
-    font.draw(batch, "<--Q D-->", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .30f);
+    font.draw(batch, "A:Left D:Right W:Jump", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .30f);
     batch.end();
   }
     	
@@ -117,6 +117,10 @@ public void render() {
     else if(Gdx.input.isKeyPressed(Input.Keys.D) & player.xCoord < 600){
       currentTexture = player.right(); // --> depile une walking frame
     }
+    else if (Gdx.input.isKeyPressed(Input.Keys.W)){
+      currentTexture = player.Jump();
+    }
+
     else {
       currentTexture = player.stand();
       player.comp = 0;
@@ -125,7 +129,7 @@ public void render() {
     currentScreen = Screen.MainGdxGame_OVER;
   }
     
-    // Itens controller 
+    // Items controller 
     itempop ++;
     
     if (itempop == 30) {
@@ -214,14 +218,14 @@ public void render() {
         	// Stength bar
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(255, 255, 255, 1);
-    shapeRenderer.rect(10,435, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
+          shapeRenderer.setColor(255, 255, 255, 1);
+          shapeRenderer.rect(10,435, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
         	shapeRenderer.end();
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         	shapeRenderer.setColor(0, 1, 0, 1);
         	shapeRenderer.rect(10,435, ((player.currentStrength)*(Gdx.graphics.getWidth()/4))/4,Gdx.graphics.getHeight()/200-2);
-    shapeRenderer.end();
+          shapeRenderer.end();
         	        
   }
 

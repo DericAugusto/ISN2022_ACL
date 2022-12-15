@@ -9,6 +9,7 @@ public class Fighter {
 	float yCoord;
 	String pseudo;
 	int comp;
+	Texture Jump;
 	Texture Stand;
 	Texture[] WalkR;
 	Texture[] WalkL;
@@ -68,6 +69,17 @@ public class Fighter {
 		this.xCoord-=this.currentSpeed;
 		comp++;
 		return this.WalkL[(int) (((comp-1)/(4*this.currentSpeed))%12)];
+	}
+
+	Texture Jump(){
+
+		for (int i = 0;i<10;i++){
+			this.yCoord+=i;
+		}
+		for (int i = 0;i<10;i++){
+			this.yCoord-=i;
+		}
+		return this.Stand;	
 	}
 	
 	Texture stand() {
