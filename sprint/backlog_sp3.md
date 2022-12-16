@@ -1,4 +1,4 @@
-- Feature 1: user can go to a PAUSE menu(Ibra)
+- Feature 1: user can go to a PAUSE menu (Ibra)
 - Feature 2: background and sounds (Ibra)
 - Feature 3: user can see an ATH of the heart points and strength for player and for monsters in order to choose which item he should pick (Adrien)
 - Feature 5: user cannot go out of the limit of the screen (Adrien)
