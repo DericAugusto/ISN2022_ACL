@@ -1,0 +1,8 @@
+# Sprint 4 features:
+1. **Add several levels to the game:** there will be a different enemy at each level, and when killing the enemy, the hero will receive a permanent bonus, which could be, for example, greater health, strength, or some other positive attribute;
+2. **Add music and noises to the game:** there will be a different theme song for each menu type and possibly for each different level. In addition, there will also be noises when the hero or enemy walks or strikes. There will also be sounds when the hero captures an item. Other sounds can be added;
+3. **Development of full screen settings:** for the new version, the game will only work in full screen, set to a 1920x1080 ratio, aiming for better graphics and less distortion;
+4. **Hero attack features:** the hero will be able to perform simple attacks, jump attacks and defend himself;
+5. **Enemy attacks:** enemies will be able to perform simple attacks;
+6. **Final boss:** in the last level there will be a final boss, with specific characteristics that differentiate it from other enemies: it can, for example, be bigger, perform different attacks and be stronger;
+7. **New camera system centered on the hero:** while the player faces his enemy in his level, the camera is centered on the player and the other elements move as he moves, meaning that in this stage he moves without leaving the center of the screen. When eliminating your enemy, the scenario becomes static and the player is able to move to the right side of the screen, moving to the next level.
