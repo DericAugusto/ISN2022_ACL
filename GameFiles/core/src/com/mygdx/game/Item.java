@@ -8,7 +8,7 @@ public class Item {
 	
 	float xCoord;
 	float yCoord;
-	enum itemType {healthPotion, strengthPotion, speedPotion, stone, monster, bomb, knife}
+	enum itemType {healthPotion, strengthPotion, speedPotion}
 	itemType iT;
 	
 	Texture[] ItemSkins;
@@ -16,7 +16,6 @@ public class Item {
 	float textureWidth;
 	int deathCountdown;
 	int effectCountdown;
-	float resistance;
 	
 	Item(String itemName){
 		if(itemName == "healthPotion") {
@@ -30,31 +29,6 @@ public class Item {
 		else if(itemName == "speedPotion") {
 			this.iT = itemType.speedPotion;
 			this.ItemSkins = new Texture[]{new Texture(Gdx.files.internal("SpeedPotion.png"))};
-		}
-
-		else if(itemName == "stone"){
-			this.iT = itemType.stone;
-			this.ItemSkins = new Texture[]{new Texture(Gdx.files.internal("stone.png"))};
-			this.resistance = 1;
-		}
-
-		else if(itemName == "bomb"){
-			this.iT = itemType.bomb;
-			this.ItemSkins = new Texture[]{new Texture(Gdx.files.internal("bomb.png"))};
-			this.resistance = 5;
-		}
-
-		else if(itemName == "knife"){
-			this.iT = itemType.knife;
-			this.ItemSkins = new Texture[]{new Texture(Gdx.files.internal("knife.png"))};
-			this.resistance = 2;
-		}
-		
-		else if(itemName == "monster"){
-			this.iT = itemType.monster;
-			this.ItemSkins = new Texture[]{new Texture(Gdx.files.internal("monster.png"))};
-			this.resistance = 10;
-
 		}
 		this.xCoord = MathUtils.random(Gdx.graphics.getWidth());
 		this.yCoord = Gdx.graphics.getHeight();
@@ -73,8 +47,13 @@ public class Item {
 	
 	void effect(Fighter player) {
 		
-		if (this.iT == itemType.healthPotion) {
-			player.HP += 30; 	
+		if (this.iT == itemType.healthPotion ) { // +300 HP 
+			if(player.HP < 700) {
+				player.HP += 300;
+			}
+			else {
+				player.HP = 1000;
+			}
 			effectCountdown = 1;
 		}
 		
@@ -90,29 +69,12 @@ public class Item {
 			}
 			effectCountdown = 1;
 		}
-
-
-		else if (this.iT == itemType.stone) {
-			player.HP-=25;
-		}
-
-		else if (this.iT == itemType.knife) {
-			player.HP-=75;
-		}
-
-		else if (this.iT == itemType.bomb) {
-			player.HP-=100;
-		}
-
-		else if (this.iT == itemType.monster) {
-			player.HP-=200;
-		}
 	}
 	
 	void clearEffect(Fighter player) {
 		
 		if (this.iT == itemType.strengthPotion) {
-			player.currentStrength = 1;
+			player.currentStrength = 1; 
 		}
 		else if (this.iT == itemType.speedPotion) {
 			player.currentSpeed = 1;
