@@ -24,7 +24,7 @@ public class MainGdxGame extends ApplicationAdapter {
 	OrthographicCamera camera;
 	
 	enum Screen{
-        TITLE, MAIN_MainGdxGame,Next_Floor, MainGdxGame_OVER;
+        TITLE, MAIN_MainGdxGame,Next_Floor,Pause, MainGdxGame_OVER;
     }
 	
 	SpriteBatch batch;
@@ -34,7 +34,7 @@ public class MainGdxGame extends ApplicationAdapter {
 	Screen currentScreen = Screen.TITLE;
 	
 	int floor = 1;
-
+	Floor Menus;
     Fighter player;
     
     int itempop = 0;
@@ -60,6 +60,7 @@ public class MainGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         
         player = new Fighter("Chad"); // player has been created here because textures have to be created in the create section
+        Menus = new Floor(0);
         
         Lfloor[0] = new Floor(1);
         Lfloor[1] = new Floor(2);
@@ -100,8 +101,11 @@ public class MainGdxGame extends ApplicationAdapter {
                 		currentScreen = Screen.MAIN_MainGdxGame;
                 	}
                 }
+                else if(currentScreen == Screen.Pause && keyCode == Input.Keys.R){
+                    currentScreen = Screen.MAIN_MainGdxGame;
+                }
                 else if(currentScreen == Screen.MAIN_MainGdxGame && keyCode == Input.Keys.E)
-                	currentScreen = Screen.MainGdxGame_OVER;
+                	currentScreen = Screen.Pause;
                 return true;
             }
         });
@@ -112,13 +116,10 @@ public class MainGdxGame extends ApplicationAdapter {
     	
     	if(currentScreen == Screen.TITLE){
 
-            Gdx.gl.glClearColor(0, .25f, 0, 1);
+            Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             batch.begin();
-            font.draw(batch, "V 1.0 !", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
-            font.draw(batch, "Beat the monsters to win", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .5f);
-            font.draw(batch, "Press space to play.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
-            font.draw(batch, "<--Q D-->", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .30f);
+            batch.draw(Menus.getStartMenu(),camera.position.x-200,camera.position.y-240,400,480);
             batch.end();
     	}
     	
@@ -239,11 +240,7 @@ public class MainGdxGame extends ApplicationAdapter {
         	batch.begin();
         	//batch.disableBlending();
         	
-        	batch.draw(Lfloor[floor-1].getBackground1(),-1000,20,640+1400,480+100);
-        	//batch.draw(Lfloor[floor-1].getBackground2(),-1000,20,640+1400,480+100);
-        	batch.draw(Lfloor[floor-1].getBackground3(),-1000,20,640+1400,480+100);
-        	
-        	font.draw(batch, "quit -> E", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
+        	batch.draw(Lfloor[floor-1].getBackground(),-1000,20,640+1400,480+100);
         	
         	
         	
@@ -316,19 +313,26 @@ public class MainGdxGame extends ApplicationAdapter {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             batch.begin();
-            font.draw(batch, "FLOOR ", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
-            font.draw(batch, "press space to continue.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
+            batch.draw(Lfloor[floor-1].getFloorTexture(),camera.position.x-340,camera.position.y-100,500,200);
             batch.end();
         	
         }
     	
         else if(currentScreen == Screen.MainGdxGame_OVER){
-            Gdx.gl.glClearColor(.25f, 0, 0, 1);
+            Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             batch.begin();
-            font.draw(batch, "END SCREEN", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .75f);
-            font.draw(batch, "Press enter to restart.", Gdx.graphics.getWidth()*.25f, Gdx.graphics.getHeight() * .25f);
+            batch.draw(Menus.getGameOverMenu(),camera.position.x-200,camera.position.y-220,400,480);
+            batch.end();
+        }
+    	
+        else if(currentScreen == Screen.Pause){
+            Gdx.gl.glClearColor(0, 0, 0, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+            batch.begin();
+            batch.draw(Menus.getPauseMenu(),camera.position.x-200,camera.position.y-240,400,480);
             batch.end();
         }
     }

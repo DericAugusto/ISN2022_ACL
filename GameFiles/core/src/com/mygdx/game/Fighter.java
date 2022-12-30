@@ -68,7 +68,7 @@ public class Fighter {
 		
 		HP = 1000; // initial HP
 		currentSpeed = 2; // initial speed
-		currentStrength = 1; // initial strength
+		currentStrength = 3; // initial strength
 	}
 	
 	
