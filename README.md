@@ -16,3 +16,28 @@ Build auto: Gradle
 > /GameFiles
 > ./gradlew run
 
+GAMEPLAY
+
+Beat the monster, collect the reward and access to the next floor.
+Each floor has its own type of monster and a reward to collect.
+You can enhance your capabilities by picking up a potion.
+
+Floor 1 : reward +25% HP
+Floor 2 : able to use a shield to counter ennemies attack
+.
+.
+.
+
+KEYBOARD CONTROLS
+
+Q : left
+D : right
+
+A : normal attack
+P : jump attack
+X : shield ( available from the third floor )
+
+E : pause
+R : resume
+SPACE : start / continue
+ENTER : return to menu after game over
