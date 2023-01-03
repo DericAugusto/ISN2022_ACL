@@ -14,12 +14,17 @@ import com.badlogic.gdx.graphics.Texture;
 import java.util.ArrayList;
 import com.badlogic.gdx.math.MathUtils;
 import java.lang.Math;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 
 
 
 public class MainGdxGame extends ApplicationAdapter {
     
 	ShapeRenderer shapeRenderer;
+	Sound sound;
+	Music music;
+	boolean audio = true;
 	float statsxCoord;
 	OrthographicCamera camera;
 	
@@ -46,7 +51,7 @@ public class MainGdxGame extends ApplicationAdapter {
     Ennemy[] ennemies = new Ennemy[3];
     ArrayList<Ennemy> Lennemies = new ArrayList<Ennemy>();
     
-    Floor[] Lfloor = new Floor[2];
+    Floor[] Lfloor = new Floor[3];
     
     
     @Override
@@ -64,6 +69,7 @@ public class MainGdxGame extends ApplicationAdapter {
         
         Lfloor[0] = new Floor(1);
         Lfloor[1] = new Floor(2);
+        Lfloor[2] = new Floor(3);
         
         // all enemies have been created
         
@@ -90,6 +96,7 @@ public class MainGdxGame extends ApplicationAdapter {
                 }
                 else if(currentScreen == Screen.MainGdxGame_OVER && keyCode == Input.Keys.ENTER){
                     currentScreen = Screen.TITLE;
+                    audio = true;
                 }
                 else if(currentScreen == Screen.Next_Floor && keyCode == Input.Keys.SPACE) {
                 	
@@ -97,15 +104,18 @@ public class MainGdxGame extends ApplicationAdapter {
                 		floor++;
                 		Lennemies.add(ennemies[floor-1]);
                 		player.setxCoord(200);
-                		player.setyCoord(100);
+                		player.setyCoord(80);
                 		currentScreen = Screen.MAIN_MainGdxGame;
                 	}
                 }
                 else if(currentScreen == Screen.Pause && keyCode == Input.Keys.R){
                     currentScreen = Screen.MAIN_MainGdxGame;
                 }
-                else if(currentScreen == Screen.MAIN_MainGdxGame && keyCode == Input.Keys.E)
+                else if(currentScreen == Screen.MAIN_MainGdxGame && keyCode == Input.Keys.E) {
                 	currentScreen = Screen.Pause;
+                	sound = Gdx.audio.newSound(Gdx.files.internal("DM-CGS-16.mp3"));
+                	sound.play();
+                }
                 return true;
             }
         });
@@ -121,9 +131,17 @@ public class MainGdxGame extends ApplicationAdapter {
             batch.begin();
             batch.draw(Menus.getStartMenu(),camera.position.x-200,camera.position.y-240,400,480);
             batch.end();
+            
+            if(audio) {
+            	audio = false;
+            	music = Gdx.audio.newMusic(Gdx.files.internal("Final Struggle (Boss Theme).mp3"));
+            	music.play();
+            }
     	}
     	
         else if(currentScreen == Screen.MAIN_MainGdxGame) {
+        	
+        	music.stop();
         	
         	if(player.getHP() ==  0) {
         		
@@ -132,12 +150,12 @@ public class MainGdxGame extends ApplicationAdapter {
         		
         	}
         	
-        	else if(Gdx.input.isKeyPressed(Input.Keys.A) & player.getxCoord() > -600 & player.isAttack() == false){
+        	else if(Gdx.input.isKeyPressed(Input.Keys.A) & player.isAttack() == false){
         		player.setSideIndicator(true);
         		player.walkL();
         		camera.translate(-1,0);
         	}
-        	else if(Gdx.input.isKeyPressed(Input.Keys.D) & player.getxCoord() < 600 & player.isAttack() == false){
+        	else if(Gdx.input.isKeyPressed(Input.Keys.D) & player.isAttack() == false){
         		player.setSideIndicator(false);
         		player.walkR();
         		camera.translate(1,0);
@@ -147,6 +165,7 @@ public class MainGdxGame extends ApplicationAdapter {
         		player.setAttack(true);
         		player.setTextureTick(0);
         		player.setAttackDuration(26);
+        		player.getSound().play();
         	}
         	else if(Gdx.input.isKeyPressed(Input.Keys.P) & player.isAttack() == false) {
         		player.setCurrentAttack(2);
@@ -154,19 +173,27 @@ public class MainGdxGame extends ApplicationAdapter {
         		player.setTextureTick(0);
         		player.setAttackDuration(31);
         	}
+        	else if(Gdx.input.isKeyPressed(Input.Keys.X) & player.isAttack() == false & player.isShieldAbilities()) {// & floor == 2 
+        		player.setCurrentAttack(3);
+        		player.setAttack(true);
+        		player.setShield(true);
+        		player.setTextureTick(0);
+        		player.setAttackDuration(15);
+        	}
         	else if(player.isAttack()) {
         		player.fight();
         		player.setTextureTick(player.getTextureTick()+1);
         		if (player.getTextureTick() == player.getAttackDuration()) {
         			player.setAttack(false);
-        			player.setyCoord(100); // after jump attack
+        			player.setyCoord(80); // after jump attack
         			
         			for(int i = 0; i < Lennemies.size(); i++) {
         				
-        				if(player.reach(Lennemies.get(i))) {
+        				if(player.reach(Lennemies.get(i)) & player.shield == false) {
         					player.hit(Lennemies.get(i));
         				}
         			}
+        			player.setShield(false);
         		}
         	}
         	else if(player.isAttack() == false) {
@@ -177,7 +204,7 @@ public class MainGdxGame extends ApplicationAdapter {
         	
         	itempop ++;
         	
-        	if (itempop == 30) {
+        	if (itempop == 90) { // spawn rate potions
         		itempop = 0;
         		itemsnumber +=1;
         		
@@ -197,6 +224,7 @@ public class MainGdxGame extends ApplicationAdapter {
         				(player.yCoord-currentItem.yCoord)*(player.yCoord-currentItem.yCoord)) < (player.textureWidth+currentItem.textureWidth)/2) {
         			
         			currentItem.effect(player);
+        			currentItem.getSound().play();
         			
         			Litems.remove(i);
         			Luseditems.add(currentItem);
@@ -220,7 +248,7 @@ public class MainGdxGame extends ApplicationAdapter {
         	
         	if(Lennemies.size() > 0) {
         		
-        		camera.position.set(player.getxCoord(), player.getyCoord()+150,0);	
+        		camera.position.set(player.getxCoord(), player.getyCoord()+170,0);	
         		camera.update();
         		shapeRenderer.setProjectionMatrix(camera.combined);
         		batch.setProjectionMatrix(camera.combined);
@@ -229,8 +257,20 @@ public class MainGdxGame extends ApplicationAdapter {
         	}
         	else {
         		
-        		if(player.getxCoord() >= statsxCoord + 300) { // just a fonctionnality when kill an ennemy
+        		Lfloor[floor-1].rewardAppear(statsxCoord + 180);
+        		
+        		if(player.getxCoord() >= statsxCoord + 170 & Lfloor[floor-1].isChestB()) { 
+        			
+        			Lfloor[floor-1].setChestB(false);
+        			sound = Gdx.audio.newSound(Gdx.files.internal("DM-CGS-18.mp3"));
+                	sound.play();
+                	Lfloor[floor-1].reward(player);
+        		}
+        		
+        		if(player.getxCoord() >= statsxCoord + 300) { // just a functionality when kill an enemy
         			currentScreen = Screen.Next_Floor;
+        			sound = Gdx.audio.newSound(Gdx.files.internal("DM-CGS-50.mp3"));
+                	sound.play();
         		}
         	}
         	
@@ -242,7 +282,10 @@ public class MainGdxGame extends ApplicationAdapter {
         	
         	batch.draw(Lfloor[floor-1].getBackground(),-1000,20,640+1400,480+100);
         	
-        	
+        	if(Lfloor[floor-1].isChestB() & Lennemies.size() == 0) {
+        		
+        		Lfloor[floor-1].getChestS().draw(batch); // si le joueur gagne le floor, reward visible
+        	}
         	
         	player.getSprite().draw(batch);
         	
@@ -269,7 +312,7 @@ public class MainGdxGame extends ApplicationAdapter {
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         	shapeRenderer.setColor(255, 255, 255, 1);
-        	shapeRenderer.rect(statsxCoord-300,470, Gdx.graphics.getWidth()/4,Gdx.graphics.getHeight()/200);
+        	shapeRenderer.rect(statsxCoord-300,470, Gdx.graphics.getWidth()/4 + (player.getBonusHP()/250)*Gdx.graphics.getWidth()/16,Gdx.graphics.getHeight()/200);
         	shapeRenderer.end();
         	
         	shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
@@ -328,6 +371,7 @@ public class MainGdxGame extends ApplicationAdapter {
         }
     	
         else if(currentScreen == Screen.Pause){
+        	
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -339,6 +383,8 @@ public class MainGdxGame extends ApplicationAdapter {
 
     @Override
     public void dispose() {
+    	music.dispose();
+        sound.dispose();
         shapeRenderer.dispose();
         batch.dispose();
     }

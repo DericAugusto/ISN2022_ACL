@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.audio.Sound;
 
 public class Fighter {
 	
@@ -16,6 +17,8 @@ public class Fighter {
 	Texture texture;
 	Sprite sprite;
 	
+	Sound sound;
+	
 	
 	Texture[] Idle;
 	Texture[] Walk;
@@ -26,18 +29,20 @@ public class Fighter {
 	
 	int currentAttack;
 	boolean attack = false;
+	boolean shield = false;
     int attackDuration;
 	
 	float HP;
+	float bonusHP;
 	int currentSpeed;
 	float currentStrength;
-	
+	boolean shieldAbilities;
 	
 	Fighter(String name){
 		
 		pseudo = name;
 		xCoord = 200;
-		yCoord = 100;
+		yCoord = 80;
 		
 		
 		
@@ -59,7 +64,8 @@ public class Fighter {
 			new Texture[]{new Texture(Gdx.files.internal("jump-attack-1.png")),new Texture(Gdx.files.internal("jump-attack-2.png")),
 					new Texture(Gdx.files.internal("jump-attack-3.png")),new Texture(Gdx.files.internal("jump-attack-4.png")),
 					new Texture(Gdx.files.internal("jump-attack-5.png")),new Texture(Gdx.files.internal("jump-attack-6.png")),
-					new Texture(Gdx.files.internal("jump-attack-7.png")),new Texture(Gdx.files.internal("jump-attack-8.png"))}};
+					new Texture(Gdx.files.internal("jump-attack-7.png")),new Texture(Gdx.files.internal("jump-attack-8.png"))},
+			new Texture[]{new Texture(Gdx.files.internal("shield-block-center-1.png")), new Texture(Gdx.files.internal("shield-block-center-2.png"))}};
 		
 				
 		textureHeight = Gdx.graphics.getHeight()/4;
@@ -67,8 +73,12 @@ public class Fighter {
 		
 		
 		HP = 1000; // initial HP
+		bonusHP = 0;
 		currentSpeed = 2; // initial speed
 		currentStrength = 3; // initial strength
+		shieldAbilities = false;
+		
+		sound = Gdx.audio.newSound(Gdx.files.internal("SWORD_03.mp3"));
 	}
 	
 	
@@ -141,6 +151,17 @@ public class Fighter {
 	public void setAttack(boolean attack) {
 		this.attack = attack;
 	}
+	
+	public boolean isShield() {
+		return shield;
+	}
+
+
+	public void setShield(boolean shield) {
+		this.shield = shield;
+	}
+
+
 	public int getAttackDuration() {
 		return attackDuration;
 	}
@@ -151,6 +172,27 @@ public class Fighter {
 	
 	public Sprite getSprite() {
 		return sprite;
+	}
+
+	public Sound getSound() {
+		return sound;
+	}
+	
+
+	public void setShieldAbilities(boolean shieldAbilities) {
+		this.shieldAbilities = shieldAbilities;
+	}
+	public boolean isShieldAbilities() {
+		return shieldAbilities;
+	}
+	
+	public float getBonusHP() {
+		return bonusHP;
+	}
+
+
+	public void setBonusHP(float bonusHP) {
+		this.bonusHP = bonusHP;
 	}
 
 
@@ -193,12 +235,12 @@ public class Fighter {
 			if(textureTick*7/(attackDuration-1) < 4) {
 				this.yCoord += 8 ;
 			}
-			else if(textureTick*7/(attackDuration-1) >= 4 & this.yCoord >= 200) {
+			else if(textureTick*7/(attackDuration-1) >= 4 & this.yCoord >= 180) {
 				this.yCoord =  this.yCoord/2;
 			}
 			
 		}
-		this.texture = this.attackTexture[this.currentAttack-1][(textureTick*7/(attackDuration-1))];
+		this.texture = this.attackTexture[this.currentAttack-1][((textureTick-1)*(attackTexture[currentAttack-1].length-1)/(attackDuration-1))];
 		this.sprite = new Sprite(this.texture);
 		this.sprite.flip(this.sideIndicator, false);
 		this.sprite.setSize(this.textureWidth, this.textureHeight);
@@ -224,7 +266,7 @@ public class Fighter {
 		this.currentSpeed = 2; // initial speed
 		this.currentStrength = 1; // initial strength
 		this.xCoord = 200;
-		this.yCoord = 100;
+		this.yCoord = 80;
 		this.textureTick = 0;
 		
 	}

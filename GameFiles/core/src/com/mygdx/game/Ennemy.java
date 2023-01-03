@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.audio.Sound;
 
 public class Ennemy {
 	
@@ -21,6 +22,8 @@ public class Ennemy {
 	Texture[] deathTexture;
 	Texture[][] attackTexture;
 	
+	Sound sound;
+	
 	float textureHeight;
 	float textureWidth;
 	
@@ -37,7 +40,7 @@ public class Ennemy {
 	Ennemy(int ennemyClass){
 		
 		this.xCoord = 600;
-		this.yCoord = 120;
+		this.yCoord = 100;
 		
 		textureHeight = Gdx.graphics.getHeight()/4;
 		textureWidth = Gdx.graphics.getWidth()/6;
@@ -48,6 +51,8 @@ public class Ennemy {
 			
 			HP = 1000;
 			currentSpeed = 1;
+			
+			sound = Gdx.audio.newSound(Gdx.files.internal("SWORD_05.mp3"));
 		
 			Idle = new Texture[]{new Texture(Gdx.files.internal("idle-1R-E1.png")),new Texture(Gdx.files.internal("idle-2R-E1.png")),
 					new Texture(Gdx.files.internal("idle-3R-E1.png")),new Texture(Gdx.files.internal("idle-4R-E1.png"))};
@@ -77,6 +82,8 @@ public class Ennemy {
 			
 			HP = 1000;
 			currentSpeed = 1;
+			
+			sound = Gdx.audio.newSound(Gdx.files.internal("SWORD_25.mp3"));
 		
 			Idle = new Texture[]{new Texture(Gdx.files.internal("idle-1-E2.png")),new Texture(Gdx.files.internal("idle-2-E2.png")),
 					new Texture(Gdx.files.internal("idle-3-E2.png")),new Texture(Gdx.files.internal("idle-4-E2.png"))};
@@ -104,6 +111,8 @@ public class Ennemy {
 			
 			HP = 1000;
 			currentSpeed = 1;
+			
+			sound = Gdx.audio.newSound(Gdx.files.internal("SWORD_01.mp3"));
 		
 			Idle = new Texture[]{new Texture(Gdx.files.internal("idle-1-E4.png")),new Texture(Gdx.files.internal("idle-2-E4.png"))};
 			
@@ -239,6 +248,9 @@ public class Ennemy {
 				
 				attack = true;
 				textureTick = 0;
+				
+				this.sound.play();
+				
 				if(playerDirection(player) == -1) {
 					this.sideIndicator = true;
 				}
@@ -284,7 +296,12 @@ public class Ennemy {
 			
 			attack = false;
 			textureTick = 0;
-			player.setHP(player.getHP()-50);
+			
+			if (player.shield == false) {
+				
+				player.setHP(player.getHP()-50);
+			}
+			
 			
 		}
 		textureTick ++;
@@ -303,7 +320,7 @@ public class Ennemy {
 		this.currentSpeed = 1; // initial speed
 		this.currentStrength = 1; // initial strength
 		this.xCoord = 600;
-		this.yCoord = 120;
+		this.yCoord = 100;
 		this.textureTick = 0;
 		
 	}
