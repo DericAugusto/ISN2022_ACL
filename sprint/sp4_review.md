@@ -1,0 +1,3 @@
+# Sprint 4 (final) review
+
+The objectives were partially achieved. It was possible to notice that the game has evolved a lot in this last sprint, even though it is not yet a completely finished product, with parts still missing. The team as a whole was able to work together, understanding what each other's expertise was. It was noticeable that we worked best by testing the platform in separate branches and then implementing the changes in the final version. It was also notable that the vacation break hindered a little the work developed, causing less to be delivered than expected. Still, as said, there was a lot of progress, even if the high expectations were not completely met.s
