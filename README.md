@@ -1,7 +1,6 @@
-# ISN2022-DIAH
-
 # ISN - ENSEM 
 ## Analyse et Conception de Logiciels
+S7 - 2èmme année 2022/2. Professeur : Horatiu CIRSTEA.
 
 ### Development of a 2D platform game
 
